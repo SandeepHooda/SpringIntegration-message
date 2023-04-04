@@ -2,31 +2,48 @@ package com.sandeep.SpringIntegration.messaging;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.sandeep.SpringIntegration.SpringIntegrationApplication; 
+import org.springframework.web.bind.annotation.RestController; 
 
 @RestController
 public class RestEndPoint {
 
-	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@RequestMapping("/{name}")
+	@Autowired
+	@Qualifier("inputChannel-one")
+	private DirectChannel inputChannel;
+	
+
+	@Autowired
+	@Qualifier("inputChannel-two")
+	private DirectChannel inputChannelTwo;
+	
+	@Autowired
+	@Qualifier("inputChannel-three")
+	private DirectChannel inputChannelThree;
+	
+	@Autowired
+	@Qualifier("greetingsToWorld")
+	private Greetings  greetGateway;
+	
+	@RequestMapping("/spring-int/{name}")
 	public String home(@PathVariable("name") String name ) {
-
 		
-		
-		AbstractApplicationContext context =
-				new ClassPathXmlApplicationContext("/META-INF/spring/integration/cafeDemo-xml.xml", SpringIntegrationApplication.class);
+		logger.info("Inside : RestEndPoint with args {}", name); 
 
-			Greetings  greetGateway = (Greetings) context.getBean("greetingsToWorld");
-			greetGateway.sendMessageToHelloWorld(name);
-			//LOGGER.info("REsponse {}", greetGateway.receiveMessageFromHelloWorld()); 
-			
-		return ""+ greetGateway.receiveMessageFromHelloWorld();
+		inputChannel.send(MessageBuilder.withPayload(name).build());
+		//or use this way greetGateway.sendMessageToHelloWorld(name);
+		
+		inputChannelTwo.send(MessageBuilder.withPayload(name).build());
+		
+		inputChannelThree.send(MessageBuilder.withPayload(name).build());
+		
+		return "ok- Check RestEndPoint.java :: system logs for more details" ;//+greetGateway.receiveMessageFromHelloWorld();
 	}
 }
