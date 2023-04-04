@@ -10,25 +10,25 @@ public class HelloWorld {
 	 
 		 
 	 public String greetOne(String name){
-		  logger.info("Greeting in HelloWorld method: greetOne {}", name); 
-		  return "Hello world  greetOne " + name; 
+		  logger.info("Greeting in HelloWorld method: greet <- 1 {}", name); 
+		  return "Hello world  greet-> 1 " + name; 
 	}
 	 
 	 @ServiceActivator(inputChannel = "inputChannel-two", outputChannel = "outputChannel-two")
 	 public String greetTwo(String name){
-		 logger.info("Greeting in HelloWorld method : greetTwo ", name); 
-		  return "Hello world  greetTwo " + name; 
+		 logger.info("Greeting in HelloWorld method : greet <- 2 ", name); 
+		  return "Hello world  greet -> 2 " + name; 
 	 }
 	 
 	 @ServiceActivator(inputChannel = "inputChannel-three", outputChannel = "outputChannel-three")
 	 public String greetThree(String name){
-		 logger.info("Greeting in HelloWorld method : greetThree ", name); 
-		  return "Hello world  greetThree " + name; 
+		 logger.info("Greeting in HelloWorld method : greet <- 3", name); 
+		  return "Hello world  greet -> 3 " + name; 
 	 }
 	 
 	 @ServiceActivator(inputChannel = "outputChannel-three", outputChannel = "outputChannel-two")
 	 public String outputHandlerForChannelThree(String message){
-		 logger.info("Greeting in HelloWorld method : outputHandlerForChannelThree ", message); 
+		 logger.info("Greeting in HelloWorld method : outputHandlerForChannelThree  ", message); 
 		  return "Hello world  greetThree " + message; 
 	 }
 }

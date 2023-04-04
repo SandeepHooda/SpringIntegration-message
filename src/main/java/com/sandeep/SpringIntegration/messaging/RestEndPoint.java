@@ -37,8 +37,9 @@ public class RestEndPoint {
 		
 		logger.info("Inside : RestEndPoint with args {}", name); 
 
-		inputChannelOne.send(MessageBuilder.withPayload(name).build());
-		//or use this way greetGateway.sendMessageToHelloWorld(name);
+		//inputChannelOne.send(MessageBuilder.withPayload(name).build());
+		//or use this way 
+		greetGateway.sendMessageToHelloWorld(name);
 		
 		inputChannelTwo.send(MessageBuilder.withPayload(name).build());
 		

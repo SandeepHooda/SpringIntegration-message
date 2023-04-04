@@ -28,10 +28,19 @@ public class SpringIntegrationApplication {
 	
 	
 	@Bean
-	public MessageHandler outputMessageHandler() {
+	public MessageHandler outputMessageHandlerForOne() {
 	    return message -> {
 	        // business logic to process the message
-	    	logger.info("Message handler on output channel: {}", message.getPayload()); 
+	    	logger.info("Message handler on output channel: -> 1 {}", message.getPayload()); 
+
+	    };
+	}
+	
+	@Bean
+	public MessageHandler outputMessageHandlerForTwo() {
+	    return message -> {
+	        // business logic to process the message
+	    	logger.info("Message handler on output channel: -> 2 {}", message.getPayload()); 
 
 	    };
 	}
@@ -39,14 +48,14 @@ public class SpringIntegrationApplication {
 	@Bean
 	public IntegrationFlow outputFlowOne() {
 	    return IntegrationFlows.from("outputChannel-one")
-	            .handle(outputMessageHandler())
+	            .handle(outputMessageHandlerForOne())
 	            .get();
 	}
 	
 	@Bean
 	public IntegrationFlow outputFlowTwo() {
 	    return IntegrationFlows.from("outputChannel-two")
-	            .handle(outputMessageHandler())
+	            .handle(outputMessageHandlerForTwo())
 	            .get();
 	}
 }
