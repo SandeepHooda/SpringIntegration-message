@@ -17,7 +17,7 @@ public class RestEndPoint {
 
 	@Autowired
 	@Qualifier("inputChannel-one")
-	private DirectChannel inputChannel;
+	private DirectChannel inputChannelOne;
 	
 
 	@Autowired
@@ -37,7 +37,7 @@ public class RestEndPoint {
 		
 		logger.info("Inside : RestEndPoint with args {}", name); 
 
-		inputChannel.send(MessageBuilder.withPayload(name).build());
+		inputChannelOne.send(MessageBuilder.withPayload(name).build());
 		//or use this way greetGateway.sendMessageToHelloWorld(name);
 		
 		inputChannelTwo.send(MessageBuilder.withPayload(name).build());
