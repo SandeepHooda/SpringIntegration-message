@@ -16,7 +16,7 @@ import org.springframework.messaging.MessageHandler;
 
 @SpringBootApplication
 @Configuration
-@ImportResource("classpath:beans.xml")
+@ImportResource({"classpath:beans.xml","classpath:flow.xml"})
 public class SpringIntegrationApplication {
 	private final Logger logger = LoggerFactory.getLogger(SpringIntegrationApplication.class);
 
@@ -40,7 +40,7 @@ public class SpringIntegrationApplication {
 	public MessageHandler outputMessageHandlerForTwo() {
 	    return message -> {
 	        // business logic to process the message
-	    	logger.info("Message handler on output channel: -> 2 {}", message.getPayload()); 
+	    	logger.info("Message handler on output channel: -> 2 {} , {}", message.getPayload(), message.getHeaders().get("added-by-sandeep")); 
 
 	    };
 	}

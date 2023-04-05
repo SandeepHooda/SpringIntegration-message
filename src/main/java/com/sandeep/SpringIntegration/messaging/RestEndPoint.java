@@ -32,6 +32,10 @@ public class RestEndPoint {
 	@Qualifier("greetingsToWorld")
 	private Greetings  greetGateway;
 	
+	@Autowired
+	@Qualifier("startingPoint")
+	private MessageGateway  startingPoint;
+	
 	@RequestMapping("/spring-int/{name}")
 	public String home(@PathVariable("name") String name ) {
 		
@@ -46,5 +50,12 @@ public class RestEndPoint {
 		inputChannelThree.send(MessageBuilder.withPayload(name).build());
 		
 		return "ok- Check RestEndPoint.java :: system logs for more details" ;//+greetGateway.receiveMessageFromHelloWorld();
+	}
+	
+	@RequestMapping("/spring-int/flow/{name}")
+	public String flow(@PathVariable("name") String name ) {
+		startingPoint.send("Hi this flow is working. ");
+		return "ok- Check RestEndPoint.java :: system logs for more details or file in /tmp direcotory" ;
+		
 	}
 }
